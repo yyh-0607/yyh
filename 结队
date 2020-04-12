@@ -1,0 +1,115 @@
+#include <bits/stdc++.h>
+#if _MSC_VER > 1000
+#pragma once
+#endif
+#define M 1000
+class Queue                        // 定义队列名
+{
+public:
+	Queue();
+	void initialQ();
+	int  emptyQ  ();               // 定义队空
+	int  getQ();                   // 取队首元素
+	int  addQ();                   // 入队
+	int  delQ();                   // 出队
+	int  number();                 // 统计队列元素数目
+	int  q[M];                     // 定义数组q
+	int front;                     //定义队首元素
+	int rear ;                     //定义队尾元素
+	virtual ~Queue();
+};
+int main(int argc, char* argv[])
+{
+	Queue s;
+	s.q[0] = 0;                    // 让入队的第一个数取数值1
+	int a=1, b=0 ,d=1 ,e=0;
+	char c;
+	while(a)                       // 运用switch实现选择
+	{
+		printf("顾客要号请输入A \n要提示下一位下一位顾客的号码请输入B \n要显示等待的人数请输入C\n结束循环请输入D \n ");
+        c= getchar();
+		while(getchar()!='\n')  continue ;
+		switch(c)
+		{
+		case 'A':;
+        case 'a':                  // 顾客要号之后让元素入队
+			s.addQ();
+			b = s.getQ();
+			printf("顾客要的号码为：%d\n", b);
+			break;
+		case 'B':;
+		case'b':                   // 删除队首元素 即显示要来办理业务的顾客
+			d = s.delQ();
+			printf("请%d号客户前来柜台办理业务\n", d);
+		case 'C':;
+			case 'c':              //  显示等待的人数
+			e = s.number();
+			printf("等待的总人数为：%d\n", e);
+			break;
+        case 'D':;
+            case 'd':              //  结束循环
+			c=0;
+			return 0;
+			break;
+		default:
+			printf("输入错误!\n");
+		}
+	}
+	printf("Hello World!\n");
+	return 0;
+}                                  //队列的建立：（类）Queue.h
+Queue::Queue()
+{
+    front = 0;
+    rear  = 0;
+}
+int Queue::emptyQ()                //初始化队列
+{
+    return front == rear;
+}
+
+int Queue::getQ()                  // 取队首元素
+{
+    if(rear+1==front)
+	    return 0;
+    else
+    {
+        int item;
+	    item=q[rear];
+	    return item;
+    }
+}
+int Queue::addQ()                  // 入队
+{
+	if((rear+1)%M==front)
+    {
+        return 0;
+    }
+	else
+    {
+		q[rear+1]=q[rear] + 1 ;    // 每次入队依次使入队元素的值加1，即表示顾客叫号依次递增
+		rear ++;                   //实现循环
+		return 1;
+	}
+}
+int Queue::delQ()                  //删除队首元素
+{
+	if((front==rear))
+		return 0;
+	else
+    {
+		int item;
+		front=(front+1)%M;
+		item=q[front];
+		return item;
+	}
+}
+int Queue:: number()               // 统计队列元素的数目
+{
+	int item;
+	item = q[rear]-q[front];
+	return item;
+}
+Queue::~Queue()
+{
+}
